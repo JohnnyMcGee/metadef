@@ -1,0 +1,59 @@
+query ListMetaobjectDefinitions(
+  $first: Int!
+  # @genqlient(omitempty: true)
+  $after: String
+) {
+  metaobjectDefinitions(first: $first, after: $after) {
+    nodes {
+      access {
+        admin
+        storefront
+      }
+      capabilities {
+        onlineStore {
+          data {
+            canCreateRedirects
+            urlHandle
+          }
+          enabled
+        }
+        publishable {
+          enabled
+        }
+        renderable {
+          enabled
+          data {
+            metaDescriptionKey
+            metaTitleKey
+          }
+        }
+        translatable {
+          enabled
+        }
+      }
+      description
+      displayNameKey
+      fieldDefinitions {
+        description
+        key
+        name
+        required
+        type {
+          category
+          name
+        }
+        validations {
+          name
+          value
+        }
+      }
+      id
+      name
+      type
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
