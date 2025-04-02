@@ -1,0 +1,257 @@
+{
+  bullet_point: {
+    fieldDefinitions: {
+      icon: {
+        type: file_reference
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      title: {
+        type: single_line_text_field
+      }
+    }
+    capabilities: {
+      translatable: true
+    }
+  }
+  bullet_point_link: {
+    fieldDefinitions: {
+      icon: {
+        type: file_reference
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      link: {
+        type: url
+      }
+      title: {
+        type: single_line_text_field
+      }
+    }
+    capabilities: {
+      translatable: true
+    }
+  }
+  buy_stack: {
+    displayNameKey: button_cta_label
+    fieldDefinitions: {
+      bullet_point_list: {
+        type: list.mixed_reference
+        description: A list of bullet points to display. They may or may not contain a link.
+        validations: {
+          metaobject_definition_ids: [
+            gid://shopify/MetaobjectDefinition/6091702586
+            gid://shopify/MetaobjectDefinition/6091669818
+          ]
+        }
+      }
+      bullet_points: {
+        type: list.metaobject_reference
+        validations: {
+          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6091702586
+        }
+      }
+      button_cta_label: {
+        required: true
+        type: single_line_text_field
+        description: The label text for the 'call to action' button
+      }
+      shipping_guarantee: {
+        type: single_line_text_field
+      }
+    }
+    capabilities: {
+      translatable: true
+    }
+  }
+  full_width_media: {
+    fieldDefinitions: {
+      image: {
+        type: file_reference
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      subtitle: {
+        type: single_line_text_field
+        description: The subtitle text to display below the title
+      }
+      title: {
+        required: true
+        type: single_line_text_field
+        description: The title text to display at the top of the component
+      }
+    }
+    capabilities: {
+      translatable: true
+    }
+  }
+  guarantee_badge_with_bullets: {
+    fieldDefinitions: {
+      badge: {
+        type: file_reference
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      badge_image: {
+        required: true
+        type: file_reference
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      bullet_point_list: {
+        type: list.mixed_reference
+        description: A list of bullet points to display. They may or may not contain a link.
+        validations: {
+          metaobject_definition_ids: [
+            gid://shopify/MetaobjectDefinition/6091702586
+            gid://shopify/MetaobjectDefinition/6091669818
+          ]
+        }
+      }
+      bullet_points: {
+        type: list.metaobject_reference
+        validations: {
+          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6091702586
+        }
+      }
+      subtitle: {
+        type: single_line_text_field
+        description: The subtitle text to display below the title
+      }
+      title: {
+        required: true
+        type: single_line_text_field
+        description: The title text to display at the top of the component
+      }
+    }
+    capabilities: {
+      translatable: true
+    }
+  }
+  image_with_text: {
+    fieldDefinitions: {
+      image: {
+        type: file_reference
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      subtitle: {
+        type: single_line_text_field
+        description: The subtitle text to display below the title
+      }
+      title: {
+        required: true
+        type: single_line_text_field
+        description: The title text to display at the top of the component
+      }
+    }
+    capabilities: {
+      translatable: true
+    }
+  }
+  post_atc_upsell_dialog: {
+    fieldDefinitions: {
+      acceptButtonLabel: {
+        type: single_line_text_field
+      }
+      body: {
+        type: single_line_text_field
+      }
+      declineButtonLabel: {
+        type: single_line_text_field
+      }
+      product: {
+        type: product_reference
+      }
+      subtitle: {
+        type: single_line_text_field
+        description: The subtitle text to display below the title
+      }
+      title: {
+        required: true
+        type: single_line_text_field
+        description: The title text to display at the top of the component
+      }
+    }
+    capabilities: {
+      translatable: true
+    }
+  }
+  side_media_grid: {
+    fieldDefinitions: {
+      button_cta_label: {
+        type: single_line_text_field
+        description: The label text for the 'call to action' button
+      }
+      button_url: {
+        type: url
+      }
+      images_with_text: {
+        type: list.metaobject_reference
+        validations: {
+          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6092292410
+        }
+      }
+      subtitle: {
+        type: single_line_text_field
+        description: The subtitle text to display below the title
+      }
+      title: {
+        required: true
+        type: single_line_text_field
+        description: The title text to display at the top of the component
+      }
+    }
+    capabilities: {
+      translatable: true
+    }
+  }
+  simple_pdp: {
+    fieldDefinitions: {
+      buy_stack: {
+        type: metaobject_reference
+        validations: {
+          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6091735354
+        }
+      }
+      page_sections: {
+        type: list.mixed_reference
+        validations: {
+          metaobject_definition_ids: [
+            gid://shopify/MetaobjectDefinition/6092259642
+            gid://shopify/MetaobjectDefinition/6092325178
+            gid://shopify/MetaobjectDefinition/6092357946
+          ]
+        }
+      }
+      upsell_dialog: {
+        type: metaobject_reference
+        validations: {
+          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6092063034
+        }
+      }
+    }
+    capabilities: {
+      publishable: true
+      translatable: true
+    }
+  }
+}

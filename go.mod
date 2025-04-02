@@ -5,6 +5,7 @@ go 1.24.2
 require (
 	github.com/Khan/genqlient v0.8.0
 	github.com/hjson/hjson-go/v4 v4.4.0
+	golang.org/x/text v0.23.0
 )
 
 require (
