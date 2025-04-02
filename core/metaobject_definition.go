@@ -47,7 +47,7 @@ type MetaobjectDefinition struct {
 	FieldDefinitions map[string]FieldDefinition `json:"fieldDefinitions"`
 }
 
-func ConvertAccess(access shopify.ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess) (a *Access, empty bool) {
+func ConvertAccess(access shopify.Cli_MetaobjectDefinitionAccessMetaobjectAccess) (a *Access, empty bool) {
 	a = &Access{}
 	empty = true
 
@@ -62,7 +62,7 @@ func ConvertAccess(access shopify.ListMetaobjectDefinitionsMetaobjectDefinitions
 	return a, empty
 }
 
-func ConvertFieldDefinition(definition shopify.ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) FieldDefinition {
+func ConvertFieldDefinition(definition shopify.Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) FieldDefinition {
 	f := FieldDefinition{
 		Type:        definition.Type.Name,
 		Description: definition.Description,
@@ -89,7 +89,7 @@ func ConvertFieldDefinition(definition shopify.ListMetaobjectDefinitionsMetaobje
 	return f
 }
 
-func ConvertCapabilities(capabilities shopify.ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities) (cap *Capabilities, empty bool) {
+func ConvertCapabilities(capabilities shopify.Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities) (cap *Capabilities, empty bool) {
 	cap = &Capabilities{}
 	empty = true
 
@@ -118,7 +118,7 @@ func ConvertCapabilities(capabilities shopify.ListMetaobjectDefinitionsMetaobjec
 	return cap, empty
 }
 
-func ConvertMetaobjectDefinition(definition shopify.ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) MetaobjectDefinition {
+func ConvertMetaobjectDefinition(definition shopify.Cli_MetaobjectDefinition) MetaobjectDefinition {
 	d := MetaobjectDefinition{
 		Name:             definition.Name,
 		Description:      definition.Description,

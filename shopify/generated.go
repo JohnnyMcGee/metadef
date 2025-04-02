@@ -8,42 +8,21 @@ import (
 	"github.com/Khan/genqlient/graphql"
 )
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection includes the requested fields of the GraphQL type MetaobjectDefinitionConnection.
-// The GraphQL type's documentation follows.
-//
-// An auto-generated type for paginating through multiple MetaobjectDefinitions.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection struct {
-	// A list of nodes that are contained in MetaobjectDefinitionEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve.
-	Nodes []ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition `json:"nodes"`
-	// An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page.
-	PageInfo ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionPageInfo `json:"pageInfo"`
-}
-
-// GetNodes returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection.Nodes, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection) GetNodes() []ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition {
-	return v.Nodes
-}
-
-// GetPageInfo returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection.PageInfo, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection) GetPageInfo() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionPageInfo {
-	return v.PageInfo
-}
-
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition includes the requested fields of the GraphQL type MetaobjectDefinition.
+// Cli_MetaobjectDefinition includes the GraphQL fields of MetaobjectDefinition requested by the fragment Cli_MetaobjectDefinition.
 // The GraphQL type's documentation follows.
 //
 // Provides the definition of a generic object structure composed of metafields.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition struct {
+type Cli_MetaobjectDefinition struct {
 	// Access configuration for the metaobject definition.
-	Access ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess `json:"access"`
+	Access Cli_MetaobjectDefinitionAccessMetaobjectAccess `json:"access"`
 	// The capabilities of the metaobject definition.
-	Capabilities ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities `json:"capabilities"`
+	Capabilities Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities `json:"capabilities"`
 	// The administrative description.
 	Description string `json:"description"`
 	// The key of a field to reference as the display name for each object.
 	DisplayNameKey string `json:"displayNameKey"`
 	// The fields defined for this object type.
-	FieldDefinitions []ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition `json:"fieldDefinitions"`
+	FieldDefinitions []Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition `json:"fieldDefinitions"`
 	// A globally-unique ID.
 	Id string `json:"id"`
 	// The human-readable name.
@@ -52,220 +31,210 @@ type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectio
 	Type string `json:"type"`
 }
 
-// GetAccess returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition.Access, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) GetAccess() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess {
+// GetAccess returns Cli_MetaobjectDefinition.Access, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinition) GetAccess() Cli_MetaobjectDefinitionAccessMetaobjectAccess {
 	return v.Access
 }
 
-// GetCapabilities returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition.Capabilities, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) GetCapabilities() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities {
+// GetCapabilities returns Cli_MetaobjectDefinition.Capabilities, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinition) GetCapabilities() Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities {
 	return v.Capabilities
 }
 
-// GetDescription returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition.Description, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) GetDescription() string {
-	return v.Description
-}
+// GetDescription returns Cli_MetaobjectDefinition.Description, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinition) GetDescription() string { return v.Description }
 
-// GetDisplayNameKey returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition.DisplayNameKey, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) GetDisplayNameKey() string {
-	return v.DisplayNameKey
-}
+// GetDisplayNameKey returns Cli_MetaobjectDefinition.DisplayNameKey, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinition) GetDisplayNameKey() string { return v.DisplayNameKey }
 
-// GetFieldDefinitions returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition.FieldDefinitions, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) GetFieldDefinitions() []ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition {
+// GetFieldDefinitions returns Cli_MetaobjectDefinition.FieldDefinitions, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinition) GetFieldDefinitions() []Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition {
 	return v.FieldDefinitions
 }
 
-// GetId returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition.Id, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) GetId() string {
-	return v.Id
-}
+// GetId returns Cli_MetaobjectDefinition.Id, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinition) GetId() string { return v.Id }
 
-// GetName returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition.Name, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) GetName() string {
-	return v.Name
-}
+// GetName returns Cli_MetaobjectDefinition.Name, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinition) GetName() string { return v.Name }
 
-// GetType returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition.Type, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinition) GetType() string {
-	return v.Type
-}
+// GetType returns Cli_MetaobjectDefinition.Type, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinition) GetType() string { return v.Type }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess includes the requested fields of the GraphQL type MetaobjectAccess.
+// Cli_MetaobjectDefinitionAccessMetaobjectAccess includes the requested fields of the GraphQL type MetaobjectAccess.
 // The GraphQL type's documentation follows.
 //
 // Access permissions for the definition's metaobjects.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess struct {
+type Cli_MetaobjectDefinitionAccessMetaobjectAccess struct {
 	// The access permitted on the Admin API.
 	Admin MetaobjectAdminAccess `json:"admin"`
 	// The access permitted on the Storefront API.
 	Storefront MetaobjectStorefrontAccess `json:"storefront"`
 }
 
-// GetAdmin returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess.Admin, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess) GetAdmin() MetaobjectAdminAccess {
+// GetAdmin returns Cli_MetaobjectDefinitionAccessMetaobjectAccess.Admin, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionAccessMetaobjectAccess) GetAdmin() MetaobjectAdminAccess {
 	return v.Admin
 }
 
-// GetStorefront returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess.Storefront, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionAccessMetaobjectAccess) GetStorefront() MetaobjectStorefrontAccess {
+// GetStorefront returns Cli_MetaobjectDefinitionAccessMetaobjectAccess.Storefront, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionAccessMetaobjectAccess) GetStorefront() MetaobjectStorefrontAccess {
 	return v.Storefront
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities includes the requested fields of the GraphQL type MetaobjectCapabilities.
+// Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities includes the requested fields of the GraphQL type MetaobjectCapabilities.
 // The GraphQL type's documentation follows.
 //
 // Provides the capabilities of a metaobject definition.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities struct {
+type Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities struct {
 	// Indicates whether a metaobject definition can be displayed as a page on the Online Store.
-	OnlineStore ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore `json:"onlineStore"`
+	OnlineStore Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore `json:"onlineStore"`
 	// Indicate whether a metaobject definition is publishable.
-	Publishable ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable `json:"publishable"`
+	Publishable Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable `json:"publishable"`
 	// Indicate whether a metaobject definition is renderable and exposes SEO data.
-	Renderable ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable `json:"renderable"`
+	Renderable Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable `json:"renderable"`
 	// Indicate whether a metaobject definition is translatable.
-	Translatable ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable `json:"translatable"`
+	Translatable Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable `json:"translatable"`
 }
 
-// GetOnlineStore returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities.OnlineStore, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities) GetOnlineStore() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore {
+// GetOnlineStore returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities.OnlineStore, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities) GetOnlineStore() Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore {
 	return v.OnlineStore
 }
 
-// GetPublishable returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities.Publishable, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities) GetPublishable() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable {
+// GetPublishable returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities.Publishable, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities) GetPublishable() Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable {
 	return v.Publishable
 }
 
-// GetRenderable returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities.Renderable, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities) GetRenderable() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable {
+// GetRenderable returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities.Renderable, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities) GetRenderable() Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable {
 	return v.Renderable
 }
 
-// GetTranslatable returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities.Translatable, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilities) GetTranslatable() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable {
+// GetTranslatable returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities.Translatable, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities) GetTranslatable() Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable {
 	return v.Translatable
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore includes the requested fields of the GraphQL type MetaobjectCapabilitiesOnlineStore.
+// Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore includes the requested fields of the GraphQL type MetaobjectCapabilitiesOnlineStore.
 // The GraphQL type's documentation follows.
 //
 // The Online Store capability of a metaobject definition.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore struct {
+type Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore struct {
 	// The data associated with the Online Store capability.
-	Data ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore `json:"data"`
+	Data Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore `json:"data"`
 	// Indicates if the capability is enabled.
 	Enabled bool `json:"enabled"`
 }
 
-// GetData returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore.Data, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore) GetData() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore {
+// GetData returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore.Data, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore) GetData() Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore {
 	return v.Data
 }
 
-// GetEnabled returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore.Enabled, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore) GetEnabled() bool {
+// GetEnabled returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore.Enabled, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStore) GetEnabled() bool {
 	return v.Enabled
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore includes the requested fields of the GraphQL type MetaobjectCapabilityDefinitionDataOnlineStore.
+// Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore includes the requested fields of the GraphQL type MetaobjectCapabilityDefinitionDataOnlineStore.
 // The GraphQL type's documentation follows.
 //
 // The Online Store capability data for the metaobject definition.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore struct {
+type Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore struct {
 	// Flag indicating if a sufficient number of redirects are available to redirect all published entries.
 	CanCreateRedirects bool `json:"canCreateRedirects"`
 	// The URL handle for accessing pages of this metaobject type in the Online Store.
 	UrlHandle string `json:"urlHandle"`
 }
 
-// GetCanCreateRedirects returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore.CanCreateRedirects, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore) GetCanCreateRedirects() bool {
+// GetCanCreateRedirects returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore.CanCreateRedirects, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore) GetCanCreateRedirects() bool {
 	return v.CanCreateRedirects
 }
 
-// GetUrlHandle returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore.UrlHandle, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore) GetUrlHandle() string {
+// GetUrlHandle returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore.UrlHandle, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesOnlineStoreDataMetaobjectCapabilityDefinitionDataOnlineStore) GetUrlHandle() string {
 	return v.UrlHandle
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable includes the requested fields of the GraphQL type MetaobjectCapabilitiesPublishable.
+// Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable includes the requested fields of the GraphQL type MetaobjectCapabilitiesPublishable.
 // The GraphQL type's documentation follows.
 //
 // The publishable capability of a metaobject definition.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable struct {
+type Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable struct {
 	// Indicates if the capability is enabled.
 	Enabled bool `json:"enabled"`
 }
 
-// GetEnabled returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable.Enabled, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable) GetEnabled() bool {
+// GetEnabled returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable.Enabled, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesPublishable) GetEnabled() bool {
 	return v.Enabled
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable includes the requested fields of the GraphQL type MetaobjectCapabilitiesRenderable.
+// Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable includes the requested fields of the GraphQL type MetaobjectCapabilitiesRenderable.
 // The GraphQL type's documentation follows.
 //
 // The renderable capability of a metaobject definition.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable struct {
+type Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable struct {
 	// Indicates if the capability is enabled.
 	Enabled bool `json:"enabled"`
 	// The data associated with the renderable capability.
-	Data ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable `json:"data"`
+	Data Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable `json:"data"`
 }
 
-// GetEnabled returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable.Enabled, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable) GetEnabled() bool {
+// GetEnabled returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable.Enabled, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable) GetEnabled() bool {
 	return v.Enabled
 }
 
-// GetData returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable.Data, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable) GetData() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable {
+// GetData returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable.Data, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderable) GetData() Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable {
 	return v.Data
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable includes the requested fields of the GraphQL type MetaobjectCapabilityDefinitionDataRenderable.
+// Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable includes the requested fields of the GraphQL type MetaobjectCapabilityDefinitionDataRenderable.
 // The GraphQL type's documentation follows.
 //
 // The renderable capability data for the metaobject definition.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable struct {
+type Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable struct {
 	// The metaobject field used as an alias for the SEO page description.
 	MetaDescriptionKey string `json:"metaDescriptionKey"`
 	// The metaobject field used as an alias for the SEO page title.
 	MetaTitleKey string `json:"metaTitleKey"`
 }
 
-// GetMetaDescriptionKey returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable.MetaDescriptionKey, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable) GetMetaDescriptionKey() string {
+// GetMetaDescriptionKey returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable.MetaDescriptionKey, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable) GetMetaDescriptionKey() string {
 	return v.MetaDescriptionKey
 }
 
-// GetMetaTitleKey returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable.MetaTitleKey, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable) GetMetaTitleKey() string {
+// GetMetaTitleKey returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable.MetaTitleKey, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesRenderableDataMetaobjectCapabilityDefinitionDataRenderable) GetMetaTitleKey() string {
 	return v.MetaTitleKey
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable includes the requested fields of the GraphQL type MetaobjectCapabilitiesTranslatable.
+// Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable includes the requested fields of the GraphQL type MetaobjectCapabilitiesTranslatable.
 // The GraphQL type's documentation follows.
 //
 // The translatable capability of a metaobject definition.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable struct {
+type Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable struct {
 	// Indicates if the capability is enabled.
 	Enabled bool `json:"enabled"`
 }
 
-// GetEnabled returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable.Enabled, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable) GetEnabled() bool {
+// GetEnabled returns Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable.Enabled, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilitiesTranslatable) GetEnabled() bool {
 	return v.Enabled
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition includes the requested fields of the GraphQL type MetaobjectFieldDefinition.
+// Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition includes the requested fields of the GraphQL type MetaobjectFieldDefinition.
 // The GraphQL type's documentation follows.
 //
 // Defines a field for a MetaobjectDefinition with properties
 // such as the field's data type and validations.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition struct {
+type Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition struct {
 	// The administrative description.
 	Description string `json:"description"`
 	// A key name used to identify the field within the metaobject composition.
@@ -275,47 +244,47 @@ type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectio
 	// Required status of the field within the metaobject composition.
 	Required bool `json:"required"`
 	// The type of data that the field stores.
-	Type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType `json:"type"`
+	Type Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType `json:"type"`
 	// A list of [validation options](https://shopify.dev/apps/metafields/definitions/validation) for
 	// the field. For example, a field with the type `date` can set a minimum date requirement.
-	Validations []ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation `json:"validations"`
+	Validations []Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation `json:"validations"`
 }
 
-// GetDescription returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Description, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetDescription() string {
+// GetDescription returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Description, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetDescription() string {
 	return v.Description
 }
 
-// GetKey returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Key, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetKey() string {
+// GetKey returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Key, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetKey() string {
 	return v.Key
 }
 
-// GetName returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Name, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetName() string {
+// GetName returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Name, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetName() string {
 	return v.Name
 }
 
-// GetRequired returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Required, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetRequired() bool {
+// GetRequired returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Required, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetRequired() bool {
 	return v.Required
 }
 
-// GetType returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Type, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetType() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType {
+// GetType returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Type, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetType() Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType {
 	return v.Type
 }
 
-// GetValidations returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Validations, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetValidations() []ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation {
+// GetValidations returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition.Validations, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) GetValidations() []Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation {
 	return v.Validations
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType includes the requested fields of the GraphQL type MetafieldDefinitionType.
+// Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType includes the requested fields of the GraphQL type MetafieldDefinitionType.
 // The GraphQL type's documentation follows.
 //
 // A metafield definition type provides basic foundation and validation for a metafield.
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType struct {
+type Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType struct {
 	// The category associated with the metafield definition type.
 	Category string `json:"category"`
 	// The name of the type for the metafield definition.
@@ -323,17 +292,17 @@ type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectio
 	Name string `json:"name"`
 }
 
-// GetCategory returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType.Category, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType) GetCategory() string {
+// GetCategory returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType.Category, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType) GetCategory() string {
 	return v.Category
 }
 
-// GetName returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType.Name, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType) GetName() string {
+// GetName returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType.Name, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionTypeMetafieldDefinitionType) GetName() string {
 	return v.Name
 }
 
-// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation includes the requested fields of the GraphQL type MetafieldDefinitionValidation.
+// Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation includes the requested fields of the GraphQL type MetafieldDefinitionValidation.
 // The GraphQL type's documentation follows.
 //
 // A configured metafield definition validation.
@@ -342,21 +311,53 @@ func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConne
 // and a value of `15`. This validation will ensure that the value of the metafield is a number less than or equal to 15.
 //
 // Refer to the [list of supported validations](https://shopify.dev/api/admin/graphql/reference/common-objects/metafieldDefinitionTypes#examples-Fetch_all_metafield_definition_types).
-type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation struct {
+type Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation struct {
 	// The validation name.
 	Name string `json:"name"`
 	// The validation value.
 	Value string `json:"value"`
 }
 
-// GetName returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation.Name, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation) GetName() string {
+// GetName returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation.Name, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation) GetName() string {
 	return v.Name
 }
 
-// GetValue returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation.Value, and is useful for accessing the field via an interface.
-func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionNodesMetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation) GetValue() string {
+// GetValue returns Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation.Value, and is useful for accessing the field via an interface.
+func (v *Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinitionValidationsMetafieldDefinitionValidation) GetValue() string {
 	return v.Value
+}
+
+// GetMetaobjectDefinitionByTypeResponse is returned by GetMetaobjectDefinitionByType on success.
+type GetMetaobjectDefinitionByTypeResponse struct {
+	// Finds a metaobject definition by type.
+	MetaobjectDefinitionByType Cli_MetaobjectDefinition `json:"metaobjectDefinitionByType"`
+}
+
+// GetMetaobjectDefinitionByType returns GetMetaobjectDefinitionByTypeResponse.MetaobjectDefinitionByType, and is useful for accessing the field via an interface.
+func (v *GetMetaobjectDefinitionByTypeResponse) GetMetaobjectDefinitionByType() Cli_MetaobjectDefinition {
+	return v.MetaobjectDefinitionByType
+}
+
+// ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection includes the requested fields of the GraphQL type MetaobjectDefinitionConnection.
+// The GraphQL type's documentation follows.
+//
+// An auto-generated type for paginating through multiple MetaobjectDefinitions.
+type ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection struct {
+	// A list of nodes that are contained in MetaobjectDefinitionEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve.
+	Nodes []Cli_MetaobjectDefinition `json:"nodes"`
+	// An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page.
+	PageInfo ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionPageInfo `json:"pageInfo"`
+}
+
+// GetNodes returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection) GetNodes() []Cli_MetaobjectDefinition {
+	return v.Nodes
+}
+
+// GetPageInfo returns ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnection) GetPageInfo() ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionPageInfo {
+	return v.PageInfo
 }
 
 // ListMetaobjectDefinitionsMetaobjectDefinitionsMetaobjectDefinitionConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
@@ -433,6 +434,14 @@ var AllMetaobjectStorefrontAccess = []MetaobjectStorefrontAccess{
 	MetaobjectStorefrontAccessPublicRead,
 }
 
+// __GetMetaobjectDefinitionByTypeInput is used internally by genqlient
+type __GetMetaobjectDefinitionByTypeInput struct {
+	DefType string `json:"defType"`
+}
+
+// GetDefType returns __GetMetaobjectDefinitionByTypeInput.DefType, and is useful for accessing the field via an interface.
+func (v *__GetMetaobjectDefinitionByTypeInput) GetDefType() string { return v.DefType }
+
 // __ListMetaobjectDefinitionsInput is used internally by genqlient
 type __ListMetaobjectDefinitionsInput struct {
 	First int    `json:"first"`
@@ -445,62 +454,146 @@ func (v *__ListMetaobjectDefinitionsInput) GetFirst() int { return v.First }
 // GetAfter returns __ListMetaobjectDefinitionsInput.After, and is useful for accessing the field via an interface.
 func (v *__ListMetaobjectDefinitionsInput) GetAfter() string { return v.After }
 
+// The query executed by GetMetaobjectDefinitionByType.
+const GetMetaobjectDefinitionByType_Operation = `
+query GetMetaobjectDefinitionByType ($defType: String!) {
+	metaobjectDefinitionByType(type: $defType) {
+		... Cli_MetaobjectDefinition
+	}
+}
+fragment Cli_MetaobjectDefinition on MetaobjectDefinition {
+	access {
+		admin
+		storefront
+	}
+	capabilities {
+		onlineStore {
+			data {
+				canCreateRedirects
+				urlHandle
+			}
+			enabled
+		}
+		publishable {
+			enabled
+		}
+		renderable {
+			enabled
+			data {
+				metaDescriptionKey
+				metaTitleKey
+			}
+		}
+		translatable {
+			enabled
+		}
+	}
+	description
+	displayNameKey
+	fieldDefinitions {
+		description
+		key
+		name
+		required
+		type {
+			category
+			name
+		}
+		validations {
+			name
+			value
+		}
+	}
+	id
+	name
+	type
+}
+`
+
+func GetMetaobjectDefinitionByType(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	defType string,
+) (data_ *GetMetaobjectDefinitionByTypeResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "GetMetaobjectDefinitionByType",
+		Query:  GetMetaobjectDefinitionByType_Operation,
+		Variables: &__GetMetaobjectDefinitionByTypeInput{
+			DefType: defType,
+		},
+	}
+
+	data_ = &GetMetaobjectDefinitionByTypeResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
 // The query executed by ListMetaobjectDefinitions.
 const ListMetaobjectDefinitions_Operation = `
 query ListMetaobjectDefinitions ($first: Int!, $after: String) {
 	metaobjectDefinitions(first: $first, after: $after) {
 		nodes {
-			access {
-				admin
-				storefront
-			}
-			capabilities {
-				onlineStore {
-					data {
-						canCreateRedirects
-						urlHandle
-					}
-					enabled
-				}
-				publishable {
-					enabled
-				}
-				renderable {
-					enabled
-					data {
-						metaDescriptionKey
-						metaTitleKey
-					}
-				}
-				translatable {
-					enabled
-				}
-			}
-			description
-			displayNameKey
-			fieldDefinitions {
-				description
-				key
-				name
-				required
-				type {
-					category
-					name
-				}
-				validations {
-					name
-					value
-				}
-			}
-			id
-			name
-			type
+			... Cli_MetaobjectDefinition
 		}
 		pageInfo {
 			hasNextPage
 			endCursor
 		}
 	}
+}
+fragment Cli_MetaobjectDefinition on MetaobjectDefinition {
+	access {
+		admin
+		storefront
+	}
+	capabilities {
+		onlineStore {
+			data {
+				canCreateRedirects
+				urlHandle
+			}
+			enabled
+		}
+		publishable {
+			enabled
+		}
+		renderable {
+			enabled
+			data {
+				metaDescriptionKey
+				metaTitleKey
+			}
+		}
+		translatable {
+			enabled
+		}
+	}
+	description
+	displayNameKey
+	fieldDefinitions {
+		description
+		key
+		name
+		required
+		type {
+			category
+			name
+		}
+		validations {
+			name
+			value
+		}
+	}
+	id
+	name
+	type
 }
 `
 

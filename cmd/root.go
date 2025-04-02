@@ -14,6 +14,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/hjson/hjson-go/v4"
+	"github.com/sergi/go-diff/diffmatchpatch"
 )
 
 const configFile = ".metaobjectsrc.hjson"
@@ -59,11 +60,75 @@ func Execute() {
 }
 
 func init() {
-	pullCmd.Flags().StringVarP(&shop, "shop", "s", "", "Shopify shop domain (without the .myshopify.com extension)")
-	pullCmd.MarkFlagRequired("shop")
-	pullCmd.Flags().StringVarP(&outFile, "out", "o", "", "Output file name")
+	rootCmd.PersistentFlags().StringVarP(&shop, "shop", "s", "", "Shopify shop domain (without the .myshopify.com extension)")
+	rootCmd.MarkFlagRequired("shop")
+	rootCmd.PersistentFlags().StringVarP(&outFile, "out", "o", "", "Output file name")
+
+	diffCmd.MarkFlagRequired("file")
 
 	rootCmd.AddCommand(pullCmd)
+	rootCmd.AddCommand(diffCmd)
+}
+
+var diffCmd = &cobra.Command{
+	Use:   "diff <file or directory>",
+	Short: "Compare local metaobject definitions with the Shopify store",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		config, err := ReadConfig(configFile)
+		if err != nil {
+			log.Fatalf("Error reading config: %v\n", err)
+			return err
+		}
+
+		client := shopify.NewShopifyAdminClient(shop, config.Shops[shop], config.Version)
+
+		input, err := os.ReadFile(args[0])
+		if err != nil {
+			log.Fatalf("Error reading local definitions: %v\n", err)
+		}
+
+		var inputDefinitions map[string]core.MetaobjectDefinition
+		hjson.Unmarshal(input, &inputDefinitions)
+
+		for key, localDefinition := range inputDefinitions {
+			result, err := shopify.GetMetaobjectDefinitionByType(context.Background(), client, key)
+
+			if err != nil {
+				log.Fatalf("Error fetching remote definition for %v: %v\n", key, err)
+				return err
+			}
+
+			remoteDefinition := core.ConvertMetaobjectDefinition(result.MetaobjectDefinitionByType)
+
+			localJson, err := hjson.Marshal(localDefinition)
+			if err != nil {
+				log.Fatalf("Error marshalling local definition %v: %v\n", key, err)
+				return err
+			}
+
+			remoteJson, err := hjson.Marshal(remoteDefinition)
+			if err != nil {
+				log.Fatalf("Error marshalling remote definition %v: %v\n", key, err)
+				return err
+			}
+
+			dmp := diffmatchpatch.New()
+
+			match := dmp.MatchMain(string(remoteJson), string(localJson), 0)
+
+			if match == 0 {
+				continue
+			}
+
+			diffs := dmp.DiffMain(string(remoteJson), string(localJson), false)
+
+			fmt.Fprintf(os.Stdout, "\nDiff for %s:\n", key)
+			fmt.Println(dmp.DiffPrettyText(diffs))
+		}
+
+		return nil
+	},
 }
 
 var pullCmd = &cobra.Command{
@@ -99,7 +164,7 @@ var pullCmd = &cobra.Command{
 		if outFile != "" {
 			os.WriteFile(outFile, payload, 0644)
 		} else {
-			fmt.Printf("%s\n", payload)
+			log.Printf("%s\n", payload)
 		}
 
 		return nil
