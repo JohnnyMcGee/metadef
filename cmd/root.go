@@ -122,8 +122,20 @@ var diffCmd = &cobra.Command{
 			}
 
 			diffs := dmp.DiffMain(string(remoteJson), string(localJson), false)
+			inserts := 0
+			deletes := 0
 
-			fmt.Fprintf(os.Stdout, "\nDiff for %s:\n", key)
+			for _, diff := range diffs {
+				if diff.Type == diffmatchpatch.DiffInsert {
+					inserts += len(diff.Text)
+				} else if diff.Type == diffmatchpatch.DiffDelete {
+					deletes += len(diff.Text)
+				}
+			}
+
+			fmt.Println()
+			fmt.Printf("%s: \x1b[32m+%d\x1b[0m \x1b[31m-%d\x1b[0m\n", result.MetaobjectDefinitionByType.Name, inserts, deletes)
+			fmt.Println("---------------------------------")
 			fmt.Println(dmp.DiffPrettyText(diffs))
 		}
 
