@@ -2,5 +2,6 @@
 # https://github.com/Khan/genqlient/blob/main/docs/genqlient.yaml
 schema: schema.graphql
 operations:
-  - operations.graphql
-generated: generated.go
+  - shopify/operations.graphql
+generated: shopify/generated.go
+package: shopify
