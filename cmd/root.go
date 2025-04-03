@@ -163,8 +163,39 @@ var pullCmd = &cobra.Command{
 
 		definitions := make(map[string]core.MetaobjectDefinition, len(data.MetaobjectDefinitions.Nodes))
 
+		referenceTypes := make(map[string]string)
+
 		for _, definition := range data.MetaobjectDefinitions.Nodes {
 			definitions[definition.Type] = core.ConvertMetaobjectDefinition(definition)
+			referenceTypes[definition.Id] = definition.Type
+		}
+
+		// Normalize metaobject definition references to use the type name
+		// instead of the ID. This allows us to use the same definitions
+		// across different stores and environments.
+		for _, d := range definitions {
+			for _, f := range d.FieldDefinitions {
+				if id, ok := f.Validations["metaobject_definition_id"]; ok {
+					if defType, ok := referenceTypes[id.(string)]; ok {
+						f.Validations["metaobject_definition"] = defType
+						delete(f.Validations, "metaobject_definition_id")
+					}
+				}
+
+				if idsValue, ok := f.Validations["metaobject_definition_ids"]; ok {
+					ids := idsValue.([]any)
+
+					defTypes := make([]string, len(ids))
+					for i, id := range ids {
+						if defType, ok := referenceTypes[id.(string)]; ok {
+							defTypes[i] = defType
+						}
+					}
+
+					f.Validations["metaobject_definitions"] = defTypes
+					delete(f.Validations, "metaobject_definition_ids")
+				}
+			}
 		}
 
 		payload, err := hjson.Marshal(definitions)
