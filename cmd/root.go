@@ -70,6 +70,30 @@ func init() {
 	rootCmd.AddCommand(diffCmd)
 }
 
+// var pushCmd = &cobra.Command{
+// 	Use:   "push <file or directory>",
+// 	Short: "Push local metaobject definitions to the Shopify store",
+// 	Args:  cobra.ExactArgs(1),
+// 	RunE: func(cmd *cobra.Command, args []string) error {
+// 		config, err := ReadConfig(configFile)
+// 		if err != nil {
+// 			log.Fatalf("Error reading config: %v\n", err)
+// 			return err
+// 		}
+
+// 		client := shopify.NewShopifyAdminClient(shop, config.Shops[shop], config.Version)
+
+// 		input, err := os.ReadFile(args[0])
+// 		if err != nil {
+// 			log.Fatalf("Error reading local definitions: %v\n", err)
+// 		}
+
+// 		var inputDefinitions map[string]core.MetaobjectDefinition
+// 		hjson.Unmarshal(input, &inputDefinitions)
+
+// 	},
+// }
+
 var diffCmd = &cobra.Command{
 	Use:   "diff <file or directory>",
 	Short: "Compare local metaobject definitions with the Shopify store",
@@ -91,15 +115,16 @@ var diffCmd = &cobra.Command{
 		var inputDefinitions map[string]core.MetaobjectDefinition
 		hjson.Unmarshal(input, &inputDefinitions)
 
+		data, err := shopify.ListMetaobjectDefinitions(context.Background(), client, 250, "")
+		if err != nil {
+			log.Fatalf("Error fetching data: %v\n", err)
+			return err
+		}
+
+		remoteDefinitions := core.CreateMetaobjectDefinitionMap(data.MetaobjectDefinitions.Nodes)
+
 		for key, localDefinition := range inputDefinitions {
-			result, err := shopify.GetMetaobjectDefinitionByType(context.Background(), client, key)
-
-			if err != nil {
-				log.Fatalf("Error fetching remote definition for %v: %v\n", key, err)
-				return err
-			}
-
-			remoteDefinition := core.ConvertMetaobjectDefinition(result.MetaobjectDefinitionByType)
+			remoteDefinition := remoteDefinitions[key]
 
 			localJson, err := hjson.Marshal(localDefinition)
 			if err != nil {
@@ -134,7 +159,7 @@ var diffCmd = &cobra.Command{
 			}
 
 			fmt.Println()
-			fmt.Printf("%s: \x1b[32m+%d\x1b[0m \x1b[31m-%d\x1b[0m\n", result.MetaobjectDefinitionByType.Name, inserts, deletes)
+			fmt.Printf("%s: \x1b[32m+%d\x1b[0m \x1b[31m-%d\x1b[0m\n", key, inserts, deletes)
 			fmt.Println("---------------------------------")
 			fmt.Println(dmp.DiffPrettyText(diffs))
 		}
