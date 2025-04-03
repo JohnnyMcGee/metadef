@@ -68,31 +68,90 @@ func init() {
 
 	rootCmd.AddCommand(pullCmd)
 	rootCmd.AddCommand(diffCmd)
+	rootCmd.AddCommand(pushCmd)
 }
 
-// var pushCmd = &cobra.Command{
-// 	Use:   "push <file or directory>",
-// 	Short: "Push local metaobject definitions to the Shopify store",
-// 	Args:  cobra.ExactArgs(1),
-// 	RunE: func(cmd *cobra.Command, args []string) error {
-// 		config, err := ReadConfig(configFile)
-// 		if err != nil {
-// 			log.Fatalf("Error reading config: %v\n", err)
-// 			return err
-// 		}
+var pushCmd = &cobra.Command{
+	Use:   "push <file or directory>",
+	Short: "Push local metaobject definitions to the Shopify store",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		config, err := ReadConfig(configFile)
+		if err != nil {
+			log.Fatalf("Error reading config: %v\n", err)
+			return err
+		}
 
-// 		client := shopify.NewShopifyAdminClient(shop, config.Shops[shop], config.Version)
+		client := shopify.NewShopifyAdminClient(shop, config.Shops[shop], config.Version)
 
-// 		input, err := os.ReadFile(args[0])
-// 		if err != nil {
-// 			log.Fatalf("Error reading local definitions: %v\n", err)
-// 		}
+		input, err := os.ReadFile(args[0])
+		if err != nil {
+			log.Fatalf("Error reading local definitions: %v\n", err)
+		}
 
-// 		var inputDefinitions map[string]core.MetaobjectDefinition
-// 		hjson.Unmarshal(input, &inputDefinitions)
+		var inputDefinitions map[string]core.MetaobjectDefinition
+		hjson.Unmarshal(input, &inputDefinitions)
 
-// 	},
-// }
+		data, err := shopify.ListMetaobjectDefinitions(context.Background(), client, 250)
+		if err != nil {
+			log.Fatalf("Error fetching data: %v\n", err)
+			return err
+		}
+
+		remoteDefinitions := core.CreateMetaobjectDefinitionMap(data.MetaobjectDefinitions.Nodes)
+
+		referenceMap := make(map[string]string, len(remoteDefinitions))
+		for _, def := range data.MetaobjectDefinitions.Nodes {
+			referenceMap[def.Type] = def.Id
+		}
+
+		for key, localDefinition := range inputDefinitions {
+			remoteDefinition, ok := remoteDefinitions[key]
+			if !ok {
+				log.Printf("Creating new definition %s\n", key)
+				input, err := core.NewMetaobjectDefinitionCreateInput(key, localDefinition, referenceMap)
+				if err != nil {
+					log.Fatalf("Error creating input for definition %v: %v\n", key, err)
+					return err
+				}
+				log.Printf("Create input: %v\n", input)
+
+				res, err := shopify.CreateMetaobjectDefinition(context.Background(), client, input)
+				if err != nil {
+					log.Fatalf("Error creating definition %v: %v\n", key, err)
+					return err
+				}
+				log.Printf("Create response: %v\n", res)
+				log.Printf("Created definition %s: %s\n", key, res.MetaobjectDefinitionCreate.MetaobjectDefinition.Id)
+
+				continue
+			}
+
+			localJson, err := hjson.Marshal(localDefinition)
+			if err != nil {
+				log.Fatalf("Error marshalling local definition %v: %v\n", key, err)
+				return err
+			}
+
+			remoteJson, err := hjson.Marshal(remoteDefinition)
+			if err != nil {
+				log.Fatalf("Error marshalling remote definition %v: %v\n", key, err)
+				return err
+			}
+
+			dmp := diffmatchpatch.New()
+
+			match := dmp.MatchMain(string(remoteJson), string(localJson), 0)
+
+			if match == 0 {
+				continue
+			}
+
+		}
+
+		return nil
+	},
+}
 
 var diffCmd = &cobra.Command{
 	Use:   "diff <file or directory>",
@@ -115,7 +174,7 @@ var diffCmd = &cobra.Command{
 		var inputDefinitions map[string]core.MetaobjectDefinition
 		hjson.Unmarshal(input, &inputDefinitions)
 
-		data, err := shopify.ListMetaobjectDefinitions(context.Background(), client, 250, "")
+		data, err := shopify.ListMetaobjectDefinitions(context.Background(), client, 250)
 		if err != nil {
 			log.Fatalf("Error fetching data: %v\n", err)
 			return err
@@ -180,7 +239,7 @@ var pullCmd = &cobra.Command{
 
 		client := shopify.NewShopifyAdminClient(shop, config.Shops[shop], config.Version)
 
-		data, err := shopify.ListMetaobjectDefinitions(context.Background(), client, 250, "")
+		data, err := shopify.ListMetaobjectDefinitions(context.Background(), client, 250)
 		if err != nil {
 			log.Fatalf("Error fetching data: %v\n", err)
 			return err

@@ -46,12 +46,8 @@ fragment Cli_MetaobjectDefinition on MetaobjectDefinition {
   type
 }
 
-query ListMetaobjectDefinitions(
-  $first: Int!
-  # @genqlient(omitempty: true)
-  $after: String
-) {
-  metaobjectDefinitions(first: $first, after: $after) {
+query ListMetaobjectDefinitions($first: Int!) {
+  metaobjectDefinitions(first: $first) {
     # @genqlient(flatten: true)
     nodes {
       ...Cli_MetaobjectDefinition
@@ -67,5 +63,39 @@ query GetMetaobjectDefinitionByType($defType: String!) {
   # @genqlient(flatten: true)
   metaobjectDefinitionByType(type: $defType) {
     ...Cli_MetaobjectDefinition
+  }
+}
+
+mutation UpdateMetaobjectDefinition(
+  $id: ID!
+  $definition: MetaobjectDefinitionUpdateInput!
+) {
+  metaobjectDefinitionUpdate(id: $id, definition: $definition) {
+    metaobjectDefinition {
+      id
+      type
+    }
+    userErrors {
+      field
+      message
+      code
+    }
+  }
+}
+
+# @genqlient(for: "MetaobjectDefinitionCreateInput.access" bind:"github.com/JohnnyMcGee/metaobjects-cli/shopify.CustomMetaobjectAccessInput")
+mutation CreateMetaobjectDefinition(
+  $definition: MetaobjectDefinitionCreateInput!
+) {
+  metaobjectDefinitionCreate(definition: $definition) {
+    metaobjectDefinition {
+      id
+      type
+    }
+    userErrors {
+      field
+      message
+      code
+    }
   }
 }

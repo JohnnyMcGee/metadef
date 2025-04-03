@@ -2,6 +2,7 @@ package core
 
 import (
 	"encoding/json"
+	"log"
 	"strings"
 
 	"github.com/JohnnyMcGee/metaobjects-cli/shopify"
@@ -11,6 +12,7 @@ import (
 
 type FieldDefinition struct {
 	Type        string         `json:"type"`
+	Name        string         `json:"name,omitempty"`
 	Description string         `json:"description,omitempty"`
 	Required    bool           `json:"required,omitempty"`
 	Validations map[string]any `json:"validations,omitempty"`
@@ -65,8 +67,13 @@ func convertAccess(access shopify.Cli_MetaobjectDefinitionAccessMetaobjectAccess
 func convertFieldDefinition(definition shopify.Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) FieldDefinition {
 	f := FieldDefinition{
 		Type:        definition.Type.Name,
+		Name:        definition.Name,
 		Description: definition.Description,
 		Required:    definition.Required,
+	}
+
+	if definition.Name == titleCase(definition.Key) {
+		f.Name = ""
 	}
 
 	if len(definition.Validations) > 0 {
@@ -118,6 +125,11 @@ func convertCapabilities(capabilities shopify.Cli_MetaobjectDefinitionCapabiliti
 	return cap, empty
 }
 
+func titleCase(s string) string {
+	c := cases.Title(language.English)
+	return c.String(strings.ReplaceAll(strings.ReplaceAll(s, "_", " "), "-", " "))
+}
+
 func ConvertMetaobjectDefinition(definition shopify.Cli_MetaobjectDefinition) MetaobjectDefinition {
 	d := MetaobjectDefinition{
 		Name:             definition.Name,
@@ -126,10 +138,7 @@ func ConvertMetaobjectDefinition(definition shopify.Cli_MetaobjectDefinition) Me
 		FieldDefinitions: make(map[string]FieldDefinition, len(definition.FieldDefinitions)),
 	}
 
-	c := cases.Title(language.English)
-	title := c.String(strings.ReplaceAll(strings.ReplaceAll(definition.Type, "_", " "), "-", " "))
-
-	if definition.Name == title {
+	if definition.Name == titleCase(definition.Type) {
 		d.Name = ""
 	}
 
@@ -198,4 +207,131 @@ func CreateMetaobjectDefinitionMap(definitions []shopify.Cli_MetaobjectDefinitio
 	}
 
 	return definitionMap
+}
+
+func NewMetaobjectDefinitionCreateInput(defType string, definition MetaobjectDefinition, referenceIds map[string]string) (shopify.MetaobjectDefinitionCreateInput, error) {
+	publicRead := shopify.MetaobjectStorefrontAccessPublicRead
+
+	input := shopify.MetaobjectDefinitionCreateInput{
+		Type: defType,
+		Access: shopify.CustomMetaobjectAccessInput{
+			Storefront: publicRead,
+		},
+		Name:             definition.Name,
+		Description:      definition.Description,
+		FieldDefinitions: make([]shopify.MetaobjectFieldDefinitionCreateInput, 0, len(definition.FieldDefinitions)),
+		DisplayNameKey:   definition.DisplayNameKey,
+	}
+
+	if definition.Name == "" {
+		name := titleCase(defType)
+		input.Name = name
+	}
+
+	if definition.Access != nil {
+		if definition.Access.Storefront != "" {
+			input.Access.Storefront = definition.Access.Storefront
+		}
+
+		switch definition.Access.Admin {
+		case shopify.MetaobjectAdminAccessMerchantRead:
+			input.Access.Admin = shopify.MetaobjectAdminAccessInputMerchantRead
+		case shopify.MetaobjectAdminAccessMerchantReadWrite:
+			input.Access.Admin = shopify.MetaobjectAdminAccessInputMerchantReadWrite
+		}
+	}
+
+	if definition.Capabilities != nil {
+		input.Capabilities = shopify.MetaobjectCapabilityCreateInput{
+			Publishable: shopify.MetaobjectCapabilityPublishableInput{
+				Enabled: definition.Capabilities.Publishable,
+			},
+			Translatable: shopify.MetaobjectCapabilityTranslatableInput{
+				Enabled: definition.Capabilities.Translatable,
+			},
+		}
+
+		if onlineStore := definition.Capabilities.OnlineStore; onlineStore != nil {
+			input.Capabilities.OnlineStore = shopify.MetaobjectCapabilityOnlineStoreInput{
+				Enabled: true,
+				Data: shopify.MetaobjectCapabilityDefinitionDataOnlineStoreInput{
+					CreateRedirects: onlineStore.CanCreateRedirects,
+					UrlHandle:       onlineStore.UrlHandle,
+				},
+			}
+		}
+
+		if renderable := definition.Capabilities.Renderable; renderable != nil {
+			input.Capabilities.Renderable = shopify.MetaobjectCapabilityRenderableInput{
+				Enabled: true,
+				Data: shopify.MetaobjectCapabilityDefinitionDataRenderableInput{
+					MetaDescriptionKey: renderable.MetaDescriptionKey,
+					MetaTitleKey:       renderable.MetaTitleKey,
+				},
+			}
+		}
+	}
+
+	for key, field := range definition.FieldDefinitions {
+		if input.DisplayNameKey == "" && field.Type == "single_line_text_field" {
+			input.DisplayNameKey = key
+		}
+
+		fieldDefinition := shopify.MetaobjectFieldDefinitionCreateInput{
+			Key:         key,
+			Type:        field.Type,
+			Name:        field.Name,
+			Description: field.Description,
+			Required:    field.Required,
+		}
+
+		if fieldDefinition.Name == "" {
+			name := titleCase(key)
+			fieldDefinition.Name = name
+		}
+
+		if def, ok := field.Validations["metaobject_definition"]; ok {
+			if id, ok := referenceIds[def.(string)]; ok {
+				field.Validations["metaobject_definition_id"] = id
+				delete(field.Validations, "metaobject_definition")
+			}
+		}
+
+		if def, ok := field.Validations["metaobject_definitions"]; ok {
+			if ids, ok := def.([]any); ok {
+				definitions := make([]string, len(ids))
+				for i, id := range ids {
+					if referenceId, ok := referenceIds[id.(string)]; ok {
+						definitions[i] = referenceId
+					}
+				}
+				field.Validations["metaobject_definition_ids"] = definitions
+				delete(field.Validations, "metaobject_definitions")
+			}
+		}
+
+		if len(field.Validations) > 0 {
+			validations := make([]shopify.MetafieldDefinitionValidationInput, 0, len(field.Validations))
+
+			for k, v := range field.Validations {
+				valueJson, err := json.Marshal(v)
+
+				if err != nil {
+					log.Fatalf("Error marshalling validation value for field %s: %v\n", key, err)
+					return shopify.MetaobjectDefinitionCreateInput{}, err
+				}
+
+				validations = append(validations, shopify.MetafieldDefinitionValidationInput{
+					Name:  k,
+					Value: string(valueJson),
+				})
+			}
+
+			fieldDefinition.Validations = validations
+		}
+
+		input.FieldDefinitions = append(input.FieldDefinitions, fieldDefinition)
+	}
+
+	return input, nil
 }
