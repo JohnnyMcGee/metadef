@@ -494,20 +494,6 @@ func (v *MetafieldDefinitionValidationInput) GetName() string { return v.Name }
 // GetValue returns MetafieldDefinitionValidationInput.Value, and is useful for accessing the field via an interface.
 func (v *MetafieldDefinitionValidationInput) GetValue() string { return v.Value }
 
-// The input fields that set access permissions for the definition's metaobjects.
-type MetaobjectAccessInput struct {
-	// The access permitted on the Admin API.
-	Admin MetaobjectAdminAccessInput `json:"admin"`
-	// The access permitted on the Storefront API.
-	Storefront MetaobjectStorefrontAccess `json:"storefront"`
-}
-
-// GetAdmin returns MetaobjectAccessInput.Admin, and is useful for accessing the field via an interface.
-func (v *MetaobjectAccessInput) GetAdmin() MetaobjectAdminAccessInput { return v.Admin }
-
-// GetStorefront returns MetaobjectAccessInput.Storefront, and is useful for accessing the field via an interface.
-func (v *MetaobjectAccessInput) GetStorefront() MetaobjectStorefrontAccess { return v.Storefront }
-
 // Metaobject access permissions for the Admin API. When the metaobject is app-owned, the owning app always has
 // full access.
 type MetaobjectAdminAccess string
@@ -531,22 +517,6 @@ var AllMetaobjectAdminAccess = []MetaobjectAdminAccess{
 	MetaobjectAdminAccessMerchantReadWrite,
 	MetaobjectAdminAccessPublicRead,
 	MetaobjectAdminAccessPublicReadWrite,
-}
-
-// Metaobject access permissions for the Admin API. When the metaobject is app-owned, the owning app always has
-// full access.
-type MetaobjectAdminAccessInput string
-
-const (
-	// The merchant has read-only access. No other apps have access.
-	MetaobjectAdminAccessInputMerchantRead MetaobjectAdminAccessInput = "MERCHANT_READ"
-	// The merchant has read and write access. No other apps have access.
-	MetaobjectAdminAccessInputMerchantReadWrite MetaobjectAdminAccessInput = "MERCHANT_READ_WRITE"
-)
-
-var AllMetaobjectAdminAccessInput = []MetaobjectAdminAccessInput{
-	MetaobjectAdminAccessInputMerchantRead,
-	MetaobjectAdminAccessInputMerchantReadWrite,
 }
 
 // The input fields for creating a metaobject capability.
@@ -751,9 +721,9 @@ type MetaobjectDefinitionUpdateInput struct {
 	// An administrative description of the definition.
 	Description string `json:"description"`
 	// A set of operations for modifying field definitions.
-	FieldDefinitions []MetaobjectFieldDefinitionOperationInput `json:"fieldDefinitions"`
+	FieldDefinitions []CustomMetaobjectFieldDefinitionOperationInput `json:"fieldDefinitions"`
 	// Access configuration for the metaobjects created with this definition.
-	Access MetaobjectAccessInput `json:"access"`
+	Access CustomMetaobjectAccessInput `json:"access"`
 	// The key of a metafield to reference as the display name for objects of this type.
 	DisplayNameKey string `json:"displayNameKey"`
 	// Whether the field order should be reset while updating.
@@ -771,12 +741,12 @@ func (v *MetaobjectDefinitionUpdateInput) GetName() string { return v.Name }
 func (v *MetaobjectDefinitionUpdateInput) GetDescription() string { return v.Description }
 
 // GetFieldDefinitions returns MetaobjectDefinitionUpdateInput.FieldDefinitions, and is useful for accessing the field via an interface.
-func (v *MetaobjectDefinitionUpdateInput) GetFieldDefinitions() []MetaobjectFieldDefinitionOperationInput {
+func (v *MetaobjectDefinitionUpdateInput) GetFieldDefinitions() []CustomMetaobjectFieldDefinitionOperationInput {
 	return v.FieldDefinitions
 }
 
 // GetAccess returns MetaobjectDefinitionUpdateInput.Access, and is useful for accessing the field via an interface.
-func (v *MetaobjectDefinitionUpdateInput) GetAccess() MetaobjectAccessInput { return v.Access }
+func (v *MetaobjectDefinitionUpdateInput) GetAccess() CustomMetaobjectAccessInput { return v.Access }
 
 // GetDisplayNameKey returns MetaobjectDefinitionUpdateInput.DisplayNameKey, and is useful for accessing the field via an interface.
 func (v *MetaobjectDefinitionUpdateInput) GetDisplayNameKey() string { return v.DisplayNameKey }
@@ -824,71 +794,6 @@ func (v *MetaobjectFieldDefinitionCreateInput) GetRequired() bool { return v.Req
 
 // GetValidations returns MetaobjectFieldDefinitionCreateInput.Validations, and is useful for accessing the field via an interface.
 func (v *MetaobjectFieldDefinitionCreateInput) GetValidations() []MetafieldDefinitionValidationInput {
-	return v.Validations
-}
-
-// The input fields for deleting a metaobject field definition.
-type MetaobjectFieldDefinitionDeleteInput struct {
-	// The key of the field definition to delete.
-	Key string `json:"key"`
-}
-
-// GetKey returns MetaobjectFieldDefinitionDeleteInput.Key, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionDeleteInput) GetKey() string { return v.Key }
-
-// The input fields for possible operations for modifying field definitions. Exactly one option is required.
-type MetaobjectFieldDefinitionOperationInput struct {
-	// The input fields for creating a metaobject field definition.
-	Create MetaobjectFieldDefinitionCreateInput `json:"create"`
-	// The input fields for updating a metaobject field definition.
-	Update MetaobjectFieldDefinitionUpdateInput `json:"update"`
-	// The input fields for deleting a metaobject field definition.
-	Delete MetaobjectFieldDefinitionDeleteInput `json:"delete"`
-}
-
-// GetCreate returns MetaobjectFieldDefinitionOperationInput.Create, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionOperationInput) GetCreate() MetaobjectFieldDefinitionCreateInput {
-	return v.Create
-}
-
-// GetUpdate returns MetaobjectFieldDefinitionOperationInput.Update, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionOperationInput) GetUpdate() MetaobjectFieldDefinitionUpdateInput {
-	return v.Update
-}
-
-// GetDelete returns MetaobjectFieldDefinitionOperationInput.Delete, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionOperationInput) GetDelete() MetaobjectFieldDefinitionDeleteInput {
-	return v.Delete
-}
-
-// The input fields for updating a metaobject field definition.
-type MetaobjectFieldDefinitionUpdateInput struct {
-	// The key of the field definition to update.
-	Key string `json:"key"`
-	// A human-readable name for the field.
-	Name string `json:"name"`
-	// An administrative description of the field.
-	Description string `json:"description"`
-	// Whether metaobjects require a saved value for the field.
-	Required bool `json:"required"`
-	// Custom validations that apply to values assigned to the field.
-	Validations []MetafieldDefinitionValidationInput `json:"validations"`
-}
-
-// GetKey returns MetaobjectFieldDefinitionUpdateInput.Key, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionUpdateInput) GetKey() string { return v.Key }
-
-// GetName returns MetaobjectFieldDefinitionUpdateInput.Name, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionUpdateInput) GetName() string { return v.Name }
-
-// GetDescription returns MetaobjectFieldDefinitionUpdateInput.Description, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionUpdateInput) GetDescription() string { return v.Description }
-
-// GetRequired returns MetaobjectFieldDefinitionUpdateInput.Required, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionUpdateInput) GetRequired() bool { return v.Required }
-
-// GetValidations returns MetaobjectFieldDefinitionUpdateInput.Validations, and is useful for accessing the field via an interface.
-func (v *MetaobjectFieldDefinitionUpdateInput) GetValidations() []MetafieldDefinitionValidationInput {
 	return v.Validations
 }
 

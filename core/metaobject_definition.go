@@ -2,6 +2,7 @@ package core
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"strings"
 
@@ -209,6 +210,99 @@ func CreateMetaobjectDefinitionMap(definitions []shopify.Cli_MetaobjectDefinitio
 	return definitionMap
 }
 
+func NewMetaobjectFieldValidations(validations map[string]any, referenceIds map[string]string) ([]shopify.MetafieldDefinitionValidationInput, error) {
+	fieldValidations := make([]shopify.MetafieldDefinitionValidationInput, 0, len(validations))
+
+	if len(validations) == 0 {
+		return fieldValidations, nil
+	}
+
+	for k, v := range validations {
+
+		if k == "metaobject_definition" {
+			id, ok := referenceIds[v.(string)]
+			if !ok {
+				log.Fatalf("Metaobject definition %s not found in reference IDs\n", v.(string))
+				return nil, errors.New("metaobject definition not found")
+			}
+
+			fieldValidations = append(fieldValidations, shopify.MetafieldDefinitionValidationInput{
+				Name:  k,
+				Value: id,
+			})
+
+			continue
+		}
+
+		if k == "metaobject_definitions" {
+			ids, ok := v.([]any)
+			if !ok {
+				log.Fatalf("Metaobject definitions %v not found in reference IDs\n", v)
+				return nil, errors.New("metaobject definitions not found")
+			}
+
+			definitions := make([]string, len(ids))
+			for i, id := range ids {
+				if referenceId, ok := referenceIds[id.(string)]; ok {
+					definitions[i] = referenceId
+				}
+			}
+
+			value, err := json.Marshal(definitions)
+			if err != nil {
+				log.Fatalf("Error marshalling validation value for field %s: %v\n", k, err)
+				return nil, err
+			}
+
+			fieldValidations = append(fieldValidations, shopify.MetafieldDefinitionValidationInput{
+				Name:  k,
+				Value: string(value),
+			})
+
+			continue
+		}
+
+		valueJson, err := json.Marshal(v)
+
+		if err != nil {
+			log.Fatalf("Error marshalling validation value: %s, %v\n", k, v)
+			return nil, err
+		}
+
+		fieldValidations = append(fieldValidations, shopify.MetafieldDefinitionValidationInput{
+			Name:  k,
+			Value: string(valueJson),
+		})
+	}
+
+	return fieldValidations, nil
+}
+
+func NewMetaobjectFieldCreateInput(key string, field FieldDefinition, referenceIds map[string]string) (shopify.MetaobjectFieldDefinitionCreateInput, error) {
+	input := shopify.MetaobjectFieldDefinitionCreateInput{
+		Key:         key,
+		Type:        field.Type,
+		Name:        field.Name,
+		Description: field.Description,
+		Required:    field.Required,
+	}
+
+	if input.Name == "" {
+		name := titleCase(key)
+		input.Name = name
+	}
+
+	validations, err := NewMetaobjectFieldValidations(field.Validations, referenceIds)
+	if err != nil {
+		log.Fatalf("Error creating field validations for field %s: %v\n", key, err)
+		return shopify.MetaobjectFieldDefinitionCreateInput{}, err
+	}
+
+	input.Validations = validations
+
+	return input, nil
+}
+
 func NewMetaobjectDefinitionCreateInput(defType string, definition MetaobjectDefinition, referenceIds map[string]string) (shopify.MetaobjectDefinitionCreateInput, error) {
 	publicRead := shopify.MetaobjectStorefrontAccessPublicRead
 
@@ -277,60 +371,132 @@ func NewMetaobjectDefinitionCreateInput(defType string, definition MetaobjectDef
 			input.DisplayNameKey = key
 		}
 
-		fieldDefinition := shopify.MetaobjectFieldDefinitionCreateInput{
+		fieldDefinition, err := NewMetaobjectFieldCreateInput(key, field, referenceIds)
+		if err != nil {
+			log.Fatalf("Error creating field input for field %s: %v\n", key, err)
+			return shopify.MetaobjectDefinitionCreateInput{}, err
+		}
+
+		input.FieldDefinitions = append(input.FieldDefinitions, fieldDefinition)
+	}
+
+	return input, nil
+}
+
+func NewMetaobjectDefinitionUpdateInput(defType string, definition MetaobjectDefinition, prevDefinition MetaobjectDefinition, referenceIds map[string]string) (shopify.MetaobjectDefinitionUpdateInput, error) {
+	input := shopify.MetaobjectDefinitionUpdateInput{
+		Access: shopify.CustomMetaobjectAccessInput{
+			Storefront: shopify.MetaobjectStorefrontAccessPublicRead,
+		},
+		Name:             definition.Name,
+		Description:      definition.Description,
+		FieldDefinitions: make([]shopify.CustomMetaobjectFieldDefinitionOperationInput, 0, len(definition.FieldDefinitions)),
+		DisplayNameKey:   definition.DisplayNameKey,
+	}
+
+	if definition.Name == "" {
+		name := titleCase(defType)
+		input.Name = name
+	}
+
+	if definition.Access != nil {
+		if definition.Access.Storefront != "" {
+			input.Access.Storefront = definition.Access.Storefront
+		}
+
+		switch definition.Access.Admin {
+		case shopify.MetaobjectAdminAccessMerchantRead:
+			input.Access.Admin = shopify.MetaobjectAdminAccessInputMerchantRead
+		case shopify.MetaobjectAdminAccessMerchantReadWrite:
+			input.Access.Admin = shopify.MetaobjectAdminAccessInputMerchantReadWrite
+		}
+	}
+
+	if definition.Capabilities != nil {
+		input.Capabilities = shopify.MetaobjectCapabilityUpdateInput{
+			Publishable: shopify.MetaobjectCapabilityPublishableInput{
+				Enabled: definition.Capabilities.Publishable,
+			},
+			Translatable: shopify.MetaobjectCapabilityTranslatableInput{
+				Enabled: definition.Capabilities.Translatable,
+			},
+		}
+
+		if onlineStore := definition.Capabilities.OnlineStore; onlineStore != nil {
+			input.Capabilities.OnlineStore = shopify.MetaobjectCapabilityOnlineStoreInput{
+				Enabled: true,
+				Data: shopify.MetaobjectCapabilityDefinitionDataOnlineStoreInput{
+					CreateRedirects: onlineStore.CanCreateRedirects,
+					UrlHandle:       onlineStore.UrlHandle,
+				},
+			}
+		}
+
+		if renderable := definition.Capabilities.Renderable; renderable != nil {
+			input.Capabilities.Renderable = shopify.MetaobjectCapabilityRenderableInput{
+				Enabled: true,
+				Data: shopify.MetaobjectCapabilityDefinitionDataRenderableInput{
+					MetaDescriptionKey: renderable.MetaDescriptionKey,
+					MetaTitleKey:       renderable.MetaTitleKey,
+				},
+			}
+		}
+	}
+
+	for key, field := range definition.FieldDefinitions {
+		if _, ok := prevDefinition.FieldDefinitions[key]; !ok {
+
+			create, err := NewMetaobjectFieldCreateInput(key, field, referenceIds)
+			if err != nil {
+				log.Fatalf("Error creating field input for field %s: %v\n", key, err)
+				return shopify.MetaobjectDefinitionUpdateInput{}, err
+			}
+
+			input.FieldDefinitions = append(input.FieldDefinitions, shopify.CustomMetaobjectFieldDefinitionOperationInput{
+				Create: &create,
+			})
+
+			continue
+		}
+
+		update := shopify.MetaobjectFieldDefinitionUpdateInput{
 			Key:         key,
-			Type:        field.Type,
 			Name:        field.Name,
 			Description: field.Description,
 			Required:    field.Required,
 		}
 
-		if fieldDefinition.Name == "" {
-			name := titleCase(key)
-			fieldDefinition.Name = name
+		if field.Name == "" {
+			update.Name = titleCase(key)
 		}
 
-		if def, ok := field.Validations["metaobject_definition"]; ok {
-			if id, ok := referenceIds[def.(string)]; ok {
-				field.Validations["metaobject_definition_id"] = id
-				delete(field.Validations, "metaobject_definition")
-			}
+		if input.DisplayNameKey == "" && field.Type == "single_line_text_field" {
+			input.DisplayNameKey = key
 		}
 
-		if def, ok := field.Validations["metaobject_definitions"]; ok {
-			if ids, ok := def.([]any); ok {
-				definitions := make([]string, len(ids))
-				for i, id := range ids {
-					if referenceId, ok := referenceIds[id.(string)]; ok {
-						definitions[i] = referenceId
-					}
-				}
-				field.Validations["metaobject_definition_ids"] = definitions
-				delete(field.Validations, "metaobject_definitions")
-			}
+		validations, err := NewMetaobjectFieldValidations(field.Validations, referenceIds)
+		if err != nil {
+			log.Fatalf("Error creating field validations for field %s: %v\n", key, err)
+			return shopify.MetaobjectDefinitionUpdateInput{}, err
+		}
+		update.Validations = validations
+
+		input.FieldDefinitions = append(input.FieldDefinitions, shopify.CustomMetaobjectFieldDefinitionOperationInput{Update: &update})
+
+	}
+
+	for key := range prevDefinition.FieldDefinitions {
+		if _, ok := definition.FieldDefinitions[key]; ok {
+			continue
 		}
 
-		if len(field.Validations) > 0 {
-			validations := make([]shopify.MetafieldDefinitionValidationInput, 0, len(field.Validations))
-
-			for k, v := range field.Validations {
-				valueJson, err := json.Marshal(v)
-
-				if err != nil {
-					log.Fatalf("Error marshalling validation value for field %s: %v\n", key, err)
-					return shopify.MetaobjectDefinitionCreateInput{}, err
-				}
-
-				validations = append(validations, shopify.MetafieldDefinitionValidationInput{
-					Name:  k,
-					Value: string(valueJson),
-				})
-			}
-
-			fieldDefinition.Validations = validations
+		del := shopify.MetaobjectFieldDefinitionDeleteInput{
+			Key: key,
 		}
 
-		input.FieldDefinitions = append(input.FieldDefinitions, fieldDefinition)
+		input.FieldDefinitions = append(input.FieldDefinitions, shopify.CustomMetaobjectFieldDefinitionOperationInput{
+			Delete: &del,
+		})
 	}
 
 	return input, nil

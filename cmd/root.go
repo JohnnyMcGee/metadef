@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -108,21 +109,17 @@ var pushCmd = &cobra.Command{
 		for key, localDefinition := range inputDefinitions {
 			remoteDefinition, ok := remoteDefinitions[key]
 			if !ok {
-				log.Printf("Creating new definition %s\n", key)
 				input, err := core.NewMetaobjectDefinitionCreateInput(key, localDefinition, referenceMap)
 				if err != nil {
 					log.Fatalf("Error creating input for definition %v: %v\n", key, err)
 					return err
 				}
-				log.Printf("Create input: %v\n", input)
 
-				res, err := shopify.CreateMetaobjectDefinition(context.Background(), client, input)
+				_, err = shopify.CreateMetaobjectDefinition(context.Background(), client, input)
 				if err != nil {
 					log.Fatalf("Error creating definition %v: %v\n", key, err)
 					return err
 				}
-				log.Printf("Create response: %v\n", res)
-				log.Printf("Created definition %s: %s\n", key, res.MetaobjectDefinitionCreate.MetaobjectDefinition.Id)
 
 				continue
 			}
@@ -147,6 +144,24 @@ var pushCmd = &cobra.Command{
 				continue
 			}
 
+			input, err := core.NewMetaobjectDefinitionUpdateInput(key, localDefinition, remoteDefinition, referenceMap)
+			if err != nil {
+				log.Fatalf("Error creating input for definition %v: %v\n", key, err)
+				return err
+			}
+
+			id, ok := referenceMap[key]
+			if !ok {
+				log.Fatalf("Error finding ID for definition %v: %v\n", key, err)
+				return errors.New("ID not found")
+			}
+
+			res, err := shopify.UpdateMetaobjectDefinition(context.Background(), client, id, input)
+			if err != nil {
+				log.Fatalf("Error updating definition %v: %v\n", key, err)
+				return err
+			}
+			log.Printf("Updated definition %s %s\n", key, res.MetaobjectDefinitionUpdate.MetaobjectDefinition.Type)
 		}
 
 		return nil

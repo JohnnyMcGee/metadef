@@ -66,6 +66,8 @@ query GetMetaobjectDefinitionByType($defType: String!) {
   }
 }
 
+# @genqlient(for: "MetaobjectDefinitionUpdateInput.access" bind:"github.com/JohnnyMcGee/metaobjects-cli/shopify.CustomMetaobjectAccessInput")
+# @genqlient(for: "MetaobjectDefinitionUpdateInput.fieldDefinitions" bind:"[]github.com/JohnnyMcGee/metaobjects-cli/shopify.CustomMetaobjectFieldDefinitionOperationInput")
 mutation UpdateMetaobjectDefinition(
   $id: ID!
   $definition: MetaobjectDefinitionUpdateInput!
