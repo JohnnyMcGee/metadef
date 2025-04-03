@@ -672,7 +672,7 @@ func (v *MetaobjectCapabilityUpdateInput) GetOnlineStore() MetaobjectCapabilityO
 // The input fields for creating a metaobject definition.
 type MetaobjectDefinitionCreateInput struct {
 	// A human-readable name for the definition. This can be changed at any time.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// An administrative description of the definition.
 	Description string `json:"description"`
 	// The type of the metaobject definition. This can't be changed.
@@ -684,7 +684,7 @@ type MetaobjectDefinitionCreateInput struct {
 	// Access configuration for the metaobjects created with this definition.
 	Access CustomMetaobjectAccessInput `json:"access"`
 	// The key of a field to reference as the display name for metaobjects of this type.
-	DisplayNameKey string `json:"displayNameKey"`
+	DisplayNameKey string `json:"displayNameKey,omitempty"`
 	// The capabilities of the metaobject definition.
 	Capabilities MetaobjectCapabilityCreateInput `json:"capabilities"`
 }
@@ -717,7 +717,7 @@ func (v *MetaobjectDefinitionCreateInput) GetCapabilities() MetaobjectCapability
 // The input fields for updating a metaobject definition.
 type MetaobjectDefinitionUpdateInput struct {
 	// A human-readable name for the definition.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// An administrative description of the definition.
 	Description string `json:"description"`
 	// A set of operations for modifying field definitions.
@@ -725,7 +725,7 @@ type MetaobjectDefinitionUpdateInput struct {
 	// Access configuration for the metaobjects created with this definition.
 	Access CustomMetaobjectAccessInput `json:"access"`
 	// The key of a metafield to reference as the display name for objects of this type.
-	DisplayNameKey string `json:"displayNameKey"`
+	DisplayNameKey string `json:"displayNameKey,omitempty"`
 	// Whether the field order should be reset while updating.
 	// If `true`, then the order is assigned based on submitted fields followed by alphabetized field omissions.
 	// If `false`, then no changes are made to the existing field order and new fields are appended at the end.

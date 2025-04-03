@@ -227,7 +227,7 @@ func NewMetaobjectFieldValidations(validations map[string]any, referenceIds map[
 			}
 
 			fieldValidations = append(fieldValidations, shopify.MetafieldDefinitionValidationInput{
-				Name:  k,
+				Name:  "metaobject_definition_id",
 				Value: id,
 			})
 
@@ -255,7 +255,7 @@ func NewMetaobjectFieldValidations(validations map[string]any, referenceIds map[
 			}
 
 			fieldValidations = append(fieldValidations, shopify.MetafieldDefinitionValidationInput{
-				Name:  k,
+				Name:  "metaobject_definition_ids",
 				Value: string(value),
 			})
 
@@ -317,11 +317,6 @@ func NewMetaobjectDefinitionCreateInput(defType string, definition MetaobjectDef
 		DisplayNameKey:   definition.DisplayNameKey,
 	}
 
-	if definition.Name == "" {
-		name := titleCase(defType)
-		input.Name = name
-	}
-
 	if definition.Access != nil {
 		if definition.Access.Storefront != "" {
 			input.Access.Storefront = definition.Access.Storefront
@@ -367,10 +362,6 @@ func NewMetaobjectDefinitionCreateInput(defType string, definition MetaobjectDef
 	}
 
 	for key, field := range definition.FieldDefinitions {
-		if input.DisplayNameKey == "" && field.Type == "single_line_text_field" {
-			input.DisplayNameKey = key
-		}
-
 		fieldDefinition, err := NewMetaobjectFieldCreateInput(key, field, referenceIds)
 		if err != nil {
 			log.Fatalf("Error creating field input for field %s: %v\n", key, err)
@@ -392,11 +383,6 @@ func NewMetaobjectDefinitionUpdateInput(defType string, definition MetaobjectDef
 		Description:      definition.Description,
 		FieldDefinitions: make([]shopify.CustomMetaobjectFieldDefinitionOperationInput, 0, len(definition.FieldDefinitions)),
 		DisplayNameKey:   definition.DisplayNameKey,
-	}
-
-	if definition.Name == "" {
-		name := titleCase(defType)
-		input.Name = name
 	}
 
 	if definition.Access != nil {
@@ -468,10 +454,6 @@ func NewMetaobjectDefinitionUpdateInput(defType string, definition MetaobjectDef
 
 		if field.Name == "" {
 			update.Name = titleCase(key)
-		}
-
-		if input.DisplayNameKey == "" && field.Type == "single_line_text_field" {
-			input.DisplayNameKey = key
 		}
 
 		validations, err := NewMetaobjectFieldValidations(field.Validations, referenceIds)

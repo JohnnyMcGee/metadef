@@ -161,7 +161,13 @@ var pushCmd = &cobra.Command{
 				log.Fatalf("Error updating definition %v: %v\n", key, err)
 				return err
 			}
-			log.Printf("Updated definition %s %s\n", key, res.MetaobjectDefinitionUpdate.MetaobjectDefinition.Type)
+
+			if len(res.MetaobjectDefinitionUpdate.UserErrors) > 0 {
+				log.Fatalf("Error updating definition %v: %v\n", key, res.MetaobjectDefinitionUpdate.UserErrors)
+				return errors.New("Error updating definition")
+			}
+
+			log.Printf("Updated definition %s\n", key)
 		}
 
 		return nil
