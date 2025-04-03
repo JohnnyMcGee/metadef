@@ -47,7 +47,7 @@ type MetaobjectDefinition struct {
 	FieldDefinitions map[string]FieldDefinition `json:"fieldDefinitions"`
 }
 
-func ConvertAccess(access shopify.Cli_MetaobjectDefinitionAccessMetaobjectAccess) (a *Access, empty bool) {
+func convertAccess(access shopify.Cli_MetaobjectDefinitionAccessMetaobjectAccess) (a *Access, empty bool) {
 	a = &Access{}
 	empty = true
 
@@ -62,7 +62,7 @@ func ConvertAccess(access shopify.Cli_MetaobjectDefinitionAccessMetaobjectAccess
 	return a, empty
 }
 
-func ConvertFieldDefinition(definition shopify.Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) FieldDefinition {
+func convertFieldDefinition(definition shopify.Cli_MetaobjectDefinitionFieldDefinitionsMetaobjectFieldDefinition) FieldDefinition {
 	f := FieldDefinition{
 		Type:        definition.Type.Name,
 		Description: definition.Description,
@@ -89,7 +89,7 @@ func ConvertFieldDefinition(definition shopify.Cli_MetaobjectDefinitionFieldDefi
 	return f
 }
 
-func ConvertCapabilities(capabilities shopify.Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities) (cap *Capabilities, empty bool) {
+func convertCapabilities(capabilities shopify.Cli_MetaobjectDefinitionCapabilitiesMetaobjectCapabilities) (cap *Capabilities, empty bool) {
 	cap = &Capabilities{}
 	empty = true
 
@@ -137,7 +137,7 @@ func ConvertMetaobjectDefinition(definition shopify.Cli_MetaobjectDefinition) Me
 
 	for _, f := range definition.FieldDefinitions {
 
-		d.FieldDefinitions[f.Key] = ConvertFieldDefinition(f)
+		d.FieldDefinitions[f.Key] = convertFieldDefinition(f)
 
 		if defaultDisplayNameKey == "" && f.Type.Name == "single_line_text_field" {
 			defaultDisplayNameKey = f.Key
@@ -148,13 +148,54 @@ func ConvertMetaobjectDefinition(definition shopify.Cli_MetaobjectDefinition) Me
 		d.DisplayNameKey = ""
 	}
 
-	if cap, empty := ConvertCapabilities(definition.Capabilities); !empty {
+	if cap, empty := convertCapabilities(definition.Capabilities); !empty {
 		d.Capabilities = cap
 	}
 
-	if access, empty := ConvertAccess(definition.Access); !empty {
+	if access, empty := convertAccess(definition.Access); !empty {
 		d.Access = access
 	}
 
 	return d
+}
+
+func CreateMetaobjectDefinitionMap(definitions []shopify.Cli_MetaobjectDefinition) map[string]MetaobjectDefinition {
+	definitionMap := make(map[string]MetaobjectDefinition, len(definitions))
+
+	referenceTypes := make(map[string]string)
+
+	for _, definition := range definitions {
+		definitionMap[definition.Type] = ConvertMetaobjectDefinition(definition)
+		referenceTypes[definition.Id] = definition.Type
+	}
+
+	// Normalize metaobject definition references to use the type name
+	// instead of the ID. This allows us to use the same definitions
+	// across different stores and environments.
+	for _, d := range definitionMap {
+		for _, f := range d.FieldDefinitions {
+			if id, ok := f.Validations["metaobject_definition_id"]; ok {
+				if defType, ok := referenceTypes[id.(string)]; ok {
+					f.Validations["metaobject_definition"] = defType
+					delete(f.Validations, "metaobject_definition_id")
+				}
+			}
+
+			if idsValue, ok := f.Validations["metaobject_definition_ids"]; ok {
+				ids := idsValue.([]any)
+
+				defTypes := make([]string, len(ids))
+				for i, id := range ids {
+					if defType, ok := referenceTypes[id.(string)]; ok {
+						defTypes[i] = defType
+					}
+				}
+
+				f.Validations["metaobject_definitions"] = defTypes
+				delete(f.Validations, "metaobject_definition_ids")
+			}
+		}
+	}
+
+	return definitionMap
 }
