@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/JohnnyMcGee/metaobjects-cli/shopify"
+	"github.com/JohnnyMcGee/metadef/shopify"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -288,8 +288,7 @@ func NewMetaobjectFieldCreateInput(key string, field FieldDefinition, referenceI
 	}
 
 	if input.Name == "" {
-		name := titleCase(key)
-		input.Name = name
+		input.Name = titleCase(key)
 	}
 
 	validations, err := NewMetaobjectFieldValidations(field.Validations, referenceIds)
@@ -315,6 +314,10 @@ func NewMetaobjectDefinitionCreateInput(defType string, definition MetaobjectDef
 		Description:      definition.Description,
 		FieldDefinitions: make([]shopify.MetaobjectFieldDefinitionCreateInput, 0, len(definition.FieldDefinitions)),
 		DisplayNameKey:   definition.DisplayNameKey,
+	}
+
+	if definition.Name == "" {
+		input.Name = titleCase(defType)
 	}
 
 	if definition.Access != nil {

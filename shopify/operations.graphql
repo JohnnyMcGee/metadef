@@ -66,8 +66,8 @@ query GetMetaobjectDefinitionByType($defType: String!) {
   }
 }
 
-# @genqlient(for: "MetaobjectDefinitionUpdateInput.access" bind:"github.com/JohnnyMcGee/metaobjects-cli/shopify.CustomMetaobjectAccessInput")
-# @genqlient(for: "MetaobjectDefinitionUpdateInput.fieldDefinitions" bind:"[]github.com/JohnnyMcGee/metaobjects-cli/shopify.CustomMetaobjectFieldDefinitionOperationInput")
+# @genqlient(for: "MetaobjectDefinitionUpdateInput.access" bind:"github.com/JohnnyMcGee/metadef/shopify.CustomMetaobjectAccessInput")
+# @genqlient(for: "MetaobjectDefinitionUpdateInput.fieldDefinitions" bind:"[]github.com/JohnnyMcGee/metadef/shopify.CustomMetaobjectFieldDefinitionOperationInput")
 # @genqlient(for: "MetaobjectDefinitionUpdateInput.name" omitempty: true)
 # @genqlient(for: "MetaobjectDefinitionUpdateInput.displayNameKey" omitempty: true)
 mutation UpdateMetaobjectDefinition(
@@ -87,7 +87,7 @@ mutation UpdateMetaobjectDefinition(
   }
 }
 
-# @genqlient(for: "MetaobjectDefinitionCreateInput.access" bind:"github.com/JohnnyMcGee/metaobjects-cli/shopify.CustomMetaobjectAccessInput")
+# @genqlient(for: "MetaobjectDefinitionCreateInput.access" bind:"github.com/JohnnyMcGee/metadef/shopify.CustomMetaobjectAccessInput")
 # @genqlient(for: "MetaobjectDefinitionCreateInput.name" omitempty: true)
 # @genqlient(for: "MetaobjectDefinitionCreateInput.displayNameKey" omitempty: true)
 mutation CreateMetaobjectDefinition(

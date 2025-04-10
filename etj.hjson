@@ -1,0 +1,358 @@
+{
+  field_types_test: {
+    description: This definition will have a field of each type for testing purposes
+    capabilities: {
+      publishable: true
+      translatable: true
+    }
+    fieldDefinitions: {
+      collection_reference: {
+        type: collection_reference
+        description: A collection reference field
+      }
+      company_reference: {
+        type: company_reference
+        description: Required Reference to a Company
+        required: true
+      }
+      customer_list_field: {
+        type: list.customer_reference
+        description: A required list of customers
+        required: true
+      }
+      decimal: {
+        type: number_decimal
+        description: Decimal Field
+        required: true
+        validations: {
+          max: 69
+          max_precision: 3
+          min: 1
+        }
+      }
+      image_file: {
+        type: file_reference
+        description: Required Image File Field
+        required: true
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      integer: {
+        type: number_integer
+        description: "Integer Field "
+        required: true
+        validations: {
+          max: 21
+          min: -1
+        }
+      }
+      integer_list: {
+        type: list.number_integer
+        description: List of Integers
+        required: true
+        validations: {
+          max: 50
+          min: 5
+        }
+      }
+      list_mixed_reference: {
+        type: list.mixed_reference
+        name: List mixed reference
+        description: A field that is a list of references to metaobjects of mixed types
+        validations: {
+          metaobject_definitions: [
+            turtle_page
+            field_types_test
+          ]
+        }
+      }
+      list_of_collection_references: {
+        type: list.collection_reference
+        name: List of Collection References
+        description: Required List of Collection References Field
+        required: true
+      }
+      list_of_decimals: {
+        type: list.number_decimal
+        name: List of Decimals
+        description: List of Decimals
+        required: true
+        validations: {
+          max: 42
+          max_precision: 5
+          min: 2
+        }
+      }
+      list_of_media_files: {
+        type: list.file_reference
+        name: List of Media Files
+        description: A required list of files that could be any type of file
+        required: true
+      }
+      list_of_metaobject_references: {
+        type: list.metaobject_reference
+        name: List of Metaobject References
+        description: A field that lists references to other metaobjects
+        required: true
+        validations: {
+          metaobject_definition: turtle_child_object
+        }
+      }
+      list_of_pages: {
+        type: list.page_reference
+        name: List of Pages
+        description: a field that lists references to pages
+        required: true
+      }
+      list_of_text: {
+        type: list.single_line_text_field
+        name: List of Text
+        description: List of Single Line Text
+        required: true
+        validations: {
+          max: 10
+          min: 5
+          regex: ^[a-zA-Z0-9]+$
+        }
+      }
+      list_of_variants: {
+        type: list.variant_reference
+        name: List of Variants
+        description: List of references to product variants
+        required: true
+      }
+      metaobject_reference: {
+        type: metaobject_reference
+        name: Metaobject reference
+        description: Reference to another metaobject
+        required: true
+        validations: {
+          metaobject_definition: turtle_child_object
+        }
+      }
+      mixed_reference_field: {
+        type: mixed_reference
+        description: A reference that could be any number of metaobject types
+        required: true
+        validations: {
+          metaobject_definitions: [
+            turtle_page
+            turtle_child_object
+            field_types_test
+          ]
+        }
+      }
+      multi_line_text: {
+        type: multi_line_text_field
+        description: Multi Line Text Field
+      }
+      multi_line_text_with_validations: {
+        type: multi_line_text_field
+        name: Multi-line text with validations
+        description: Multi-line text that is required, has min, max and regex validations
+        required: true
+        validations: {
+          max: 20
+          min: 10
+          regex: ^[0-9]+$
+        }
+      }
+      page_reference: {
+        type: page_reference
+        description: A field that references a page
+      }
+      product: {
+        type: product_reference
+        description: Product
+        required: true
+      }
+      product_list: {
+        type: list.product_reference
+        description: Product List
+        required: true
+      }
+      product_variant_reference: {
+        type: variant_reference
+        description: A field that references a product variant
+        required: true
+      }
+      single_line_text_field: {
+        type: single_line_text_field
+        description: Single Line Text Field That is Required, has min and max character count
+        required: true
+        validations: {
+          max: 25
+          min: 2
+        }
+      }
+      text_with_options: {
+        type: single_line_text_field
+        name: Text with Options
+        description: Single Line Text with preset choices
+        validations: {
+          choices: [
+            Option A
+            Option B
+            Option C
+          ]
+        }
+      }
+      text_with_regex_validation: {
+        type: single_line_text_field
+        description: Single Line Text with a Regex that matches alphanumeric characters only
+        validations: {
+          regex: ^[a-zA-Z0-9]+$
+        }
+      }
+      video_file: {
+        type: file_reference
+        description: Required Video File
+        required: true
+        validations: {
+          file_type_options: [
+            Video
+          ]
+        }
+      }
+    }
+  }
+  shopify--color-pattern: {
+    name: Color
+    description: Defines the primary color or pattern, such as blue or striped
+    capabilities: {
+      translatable: true
+    }
+    fieldDefinitions: {
+      color: {
+        type: color
+      }
+      color_taxonomy_reference: {
+        type: list.product_taxonomy_value_reference
+        name: Base color
+        description: Base values map to standards for better search and organization
+        required: true
+        validations: {
+          list.max: 4
+          list.min: 1
+          product_taxonomy_attribute_handle: color
+        }
+      }
+      image: {
+        type: file_reference
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      label: {
+        type: single_line_text_field
+        required: true
+        validations: {
+          max: 255
+        }
+      }
+      pattern_taxonomy_reference: {
+        type: product_taxonomy_value_reference
+        name: Base pattern
+        description: Base values map to standards for better search and organization
+        required: true
+        validations: {
+          product_taxonomy_attribute_handle: pattern
+        }
+      }
+    }
+  }
+  turtle_child_object: {
+    description: This is a radical child object
+    capabilities: {
+      publishable: true
+      translatable: true
+    }
+    fieldDefinitions: {
+      image: {
+        type: file_reference
+        name: image
+        description: The image for the child
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      name: {
+        type: single_line_text_field
+        description: Internal display name
+      }
+      some_other_text: {
+        type: single_line_text_field
+        name: Some other text
+      }
+      title: {
+        type: single_line_text_field
+      }
+    }
+  }
+  turtle_page: {
+    description: Custom metaobject that defines a web page
+    capabilities: {
+      onlineStore: {
+        canCreateRedirects: true
+        urlHandle: turtle-page
+      }
+      publishable: true
+      renderable: {
+        metaDescriptionKey: page_description
+        metaTitleKey: page_title
+      }
+      translatable: true
+    }
+    fieldDefinitions: {
+      body: {
+        type: single_line_text_field
+      }
+      child: {
+        type: metaobject_reference
+        name: child
+        description: Turtle Child
+        validations: {
+          metaobject_definition: turtle_child_object
+        }
+      }
+      heading: {
+        type: rich_text_field
+      }
+      image: {
+        type: file_reference
+        validations: {
+          file_type_options: [
+            Image
+          ]
+        }
+      }
+      mixed_children: {
+        type: list.mixed_reference
+        description: These are composable metaobject sections
+        validations: {
+          metaobject_definitions: [
+            turtle_child_object
+          ]
+        }
+      }
+      name: {
+        type: single_line_text_field
+        description: Name of the metaobject for internal use only.
+        required: true
+      }
+      page_description: {
+        type: multi_line_text_field
+      }
+      page_title: {
+        type: single_line_text_field
+      }
+    }
+  }
+}

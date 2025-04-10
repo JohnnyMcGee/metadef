@@ -1,4 +1,4 @@
-module github.com/JohnnyMcGee/metaobjects-cli
+module github.com/JohnnyMcGee/metadef
 
 go 1.24.2
 
@@ -12,6 +12,7 @@ require (
 
 require (
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/hjson/hjson-go v3.3.0+incompatible
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/vektah/gqlparser/v2 v2.5.19 // indirect

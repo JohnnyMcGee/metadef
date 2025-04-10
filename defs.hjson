@@ -1,4 +1,82 @@
 {
+  app--167056146433: {
+    name: X_100 Band
+    description: A band of musicians
+    access: {
+      admin: MERCHANT_READ_WRITE
+    }
+    capabilities: {
+      translatable: true
+    }
+    fieldDefinitions: {
+      bio: {
+        type: multi_line_text_field
+        description: A short biography of the band
+        validations: {
+          max: 500
+          min: 10
+        }
+      }
+      genre: {
+        type: single_line_text_field
+        description: The genre of music the band plays
+      }
+      members: {
+        type: list.single_line_text_field
+        description: The names of the band members
+        validations: {
+          max: 10
+          min: 1
+        }
+      }
+      name: {
+        type: single_line_text_field
+        description: The name of the band
+        required: true
+      }
+    }
+  }
+  band: {
+    name: X_100 Band
+    description: A band of musicians
+    capabilities: {
+      translatable: true
+    }
+    fieldDefinitions: {
+      band_facts: {
+        type: list.metaobject_reference
+        description: A bulleted list of facts about the band with icons
+        validations: {
+          metaobject_definition: bullet_point
+        }
+      }
+      bio: {
+        type: multi_line_text_field
+        description: A short biography of the band
+        validations: {
+          max: 500
+          min: 10
+        }
+      }
+      genre: {
+        type: single_line_text_field
+        description: The genre of music the band plays
+      }
+      members: {
+        type: list.single_line_text_field
+        description: The names of the band members
+        validations: {
+          max: 10
+          min: 1
+        }
+      }
+      name: {
+        type: single_line_text_field
+        description: The name of the band
+        required: true
+      }
+    }
+  }
   bullet_point: {
     capabilities: {
       translatable: true
@@ -14,11 +92,6 @@
       }
       title: {
         type: single_line_text_field
-        description: The title text to display at the top of the component
-      }
-      subtitle: {
-        type: single_line_text_field
-        description: The subtitle text to display below the title
       }
     }
   }
@@ -43,6 +116,20 @@
       }
     }
   }
+  bullet_point_test: {
+    capabilities: {
+      translatable: true
+    }
+    fieldDefinitions: {
+      title: {
+        type: single_line_text_field
+      }
+      test_no: {
+        type: number_integer
+        description: A test number
+      }
+    }
+  }
   buy_stack: {
     capabilities: {
       translatable: true
@@ -53,16 +140,16 @@
         type: list.mixed_reference
         description: A list of bullet points to display. They may or may not contain a link.
         validations: {
-          metaobject_definition_ids: [
-            gid://shopify/MetaobjectDefinition/6091702586
-            gid://shopify/MetaobjectDefinition/6091669818
+          metaobject_definitions: [
+            bullet_point_link
+            bullet_point
           ]
         }
       }
       bullet_points: {
         type: list.metaobject_reference
         validations: {
-          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6091702586
+          metaobject_definition: bullet_point_link
         }
       }
       button_cta_label: {
@@ -125,16 +212,17 @@
         type: list.mixed_reference
         description: A list of bullet points to display. They may or may not contain a link.
         validations: {
-          metaobject_definition_ids: [
-            gid://shopify/MetaobjectDefinition/6091702586
-            gid://shopify/MetaobjectDefinition/6091669818
+          metaobject_definitions: [
+            bullet_point_link
+            bullet_point
+            bullet_point_test
           ]
         }
       }
       bullet_points: {
         type: list.metaobject_reference
         validations: {
-          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6091702586
+          metaobject_definition: bullet_point_link
         }
       }
       subtitle: {
@@ -179,12 +267,14 @@
     fieldDefinitions: {
       acceptButtonLabel: {
         type: single_line_text_field
+        name: Accept Button Label
       }
       body: {
         type: single_line_text_field
       }
       declineButtonLabel: {
         type: single_line_text_field
+        name: Decline Button Label
       }
       product: {
         type: product_reference
@@ -215,7 +305,7 @@
       images_with_text: {
         type: list.metaobject_reference
         validations: {
-          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6092292410
+          metaobject_definition: image_with_text
         }
       }
       subtitle: {
@@ -238,23 +328,23 @@
       buy_stack: {
         type: metaobject_reference
         validations: {
-          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6091735354
+          metaobject_definition: buy_stack
         }
       }
       page_sections: {
         type: list.mixed_reference
         validations: {
-          metaobject_definition_ids: [
-            gid://shopify/MetaobjectDefinition/6092259642
-            gid://shopify/MetaobjectDefinition/6092325178
-            gid://shopify/MetaobjectDefinition/6092357946
+          metaobject_definitions: [
+            guarantee_badge_with_bullets
+            side_media_grid
+            full_width_media
           ]
         }
       }
       upsell_dialog: {
         type: metaobject_reference
         validations: {
-          metaobject_definition_id: gid://shopify/MetaobjectDefinition/6092063034
+          metaobject_definition: post_atc_upsell_dialog
         }
       }
     }
